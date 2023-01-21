@@ -25,6 +25,7 @@ public class PlaneController : MonoBehaviour
     [SerializeField] public string throttleKey = "Mouse0";
     [SerializeField] public string brakeKey = "Mouse1";
 
+    [SerializeField] public float collisionCrashIndex = 500.0f;
 
     [SerializeField] public Rigidbody rb;
 
@@ -47,7 +48,7 @@ public class PlaneController : MonoBehaviour
         float adjustedSensitivity = getAdjustedSensitivity(); 
         rb.AddTorque(transform.up * yaw * adjustedSensitivity);
         rb.AddTorque(transform.right * pitch * adjustedSensitivity);
-        rb.AddTorque(transform.forward * roll * adjustedSensitivity);
+        rb.AddTorque(-transform.forward * roll * adjustedSensitivity);
     }
 
     public float getAdjustedSensitivity()
@@ -55,15 +56,16 @@ public class PlaneController : MonoBehaviour
         return (rb.mass/sensitivityScale) * sensitivity;    
     }
 
+
     public void ControllerProcessing()
     {
         roll = Input.GetAxis(rollAxis);
         pitch = Input.GetAxis(pitchlAxis);
         yaw = Input.GetAxis(yawAxis);
 
-        if (Input.GetButtonDown(throttleKey))
+        if (Input.GetButton(throttleKey))
         {
-            Debug.Log("Throttle on"); 
+           // Debug.Log("Throttle on"); 
             throttle += throttleIncrement; 
 
             if(throttle >=maxThrottle)
@@ -72,9 +74,9 @@ public class PlaneController : MonoBehaviour
             }
         }
 
-        else if (Input.GetButtonDown(brakeKey))
+        else if (Input.GetButton(brakeKey))
         {
-            Debug.Log("Brakes on");
+           // Debug.Log("Brakes on");
             throttle -= throttleIncrement;
 
             if (throttle < 0)
