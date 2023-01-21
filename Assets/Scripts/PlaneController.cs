@@ -31,6 +31,8 @@ public class PlaneController : MonoBehaviour
     [SerializeField] public Rigidbody rb;
     [SerializeField] public GameObject screenBoundaries;
 
+    [SerializeField] public AudioSource audioSource;
+
 
     void Start()
     {
@@ -72,6 +74,9 @@ public class PlaneController : MonoBehaviour
 
         roll = mousePos.x * 2 - 1.0f;
         pitch = mousePos.y * 2 - 1.0f;
+
+        audioSource.panStereo = mousePos.x*2 - 1.0f;
+        audioSource.pitch = mousePos.y * 2 + 1.0f; 
     }
 
     public void ControllerProcessing()
@@ -87,6 +92,11 @@ public class PlaneController : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse2))
         {
             ThereminControllerProcessing();
+        }
+        else
+        {
+            audioSource.panStereo =0;
+            audioSource.pitch =1.5f;
         }
 
         if (Input.GetButton(throttleKey))

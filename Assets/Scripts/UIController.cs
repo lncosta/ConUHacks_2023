@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] public TextMeshProUGUI text;
+    [SerializeField] public TextMeshProUGUI text; //Speed
+    [SerializeField] public TextMeshProUGUI text2; //Altitude
     [SerializeField] public Rigidbody planeRB;
     [SerializeField] public GameObject gameOverPanel;
     // Start is called before the first frame update
@@ -18,7 +19,8 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = "Speed: " + (int)planeRB.velocity.magnitude + " unit/second";
+        text.text = "Speed: " + (int)planeRB.velocity.magnitude + " units/second"; 
+        text2.text = "Altitude: " + (int)planeRB.transform.position.y + " units";
         CheckForGameOver();
     }
 
