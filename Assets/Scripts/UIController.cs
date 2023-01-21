@@ -12,14 +12,14 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        text.text = "Speed: " + (int) planeRB.velocity.magnitude + " unit/second";
-        CheckForGameOver(); 
+        text.text = "Speed: " + (int)planeRB.velocity.magnitude + " unit/second";
+        CheckForGameOver();
     }
 
     public void Restart()
@@ -28,15 +28,16 @@ public class UIController : MonoBehaviour
         {
             Time.timeScale = 1;
             gameOverPanel.SetActive(false);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //Restarts the simulation
-            
+            Globals.gameOver = false;
+            SceneManager.LoadScene(0); //Restarts the simulation
+
         }
     }
 
 
     public void CheckForGameOver()
     {
-        if (Globals.gameOver)
+        if (Globals.gameOver && !gameOverPanel.activeInHierarchy)
         {
             Time.timeScale = 0;
             gameOverPanel.SetActive(true);

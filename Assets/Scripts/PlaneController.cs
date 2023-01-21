@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlaneController : MonoBehaviour
 {
@@ -28,12 +29,14 @@ public class PlaneController : MonoBehaviour
     [SerializeField] public float collisionCrashIndex = 500.0f;
 
     [SerializeField] public Rigidbody rb;
+    [SerializeField] public GameObject screenBoundaries;
+
 
     void Start()
     {
 
         rb = GetComponent<Rigidbody>();
-        
+
     }
 
     // Update is called once per frame
@@ -44,8 +47,8 @@ public class PlaneController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddForce(transform.forward * thrust * throttle );
-        float adjustedSensitivity = getAdjustedSensitivity(); 
+        rb.AddForce(transform.forward * thrust * throttle);
+        float adjustedSensitivity = getAdjustedSensitivity();
         rb.AddTorque(transform.up * yaw * adjustedSensitivity);
         rb.AddTorque(transform.right * pitch * adjustedSensitivity);
         rb.AddTorque(-transform.forward * roll * adjustedSensitivity);
@@ -53,15 +56,37 @@ public class PlaneController : MonoBehaviour
 
     public float getAdjustedSensitivity()
     {
-        return (rb.mass/sensitivityScale) * sensitivity;    
+        return (rb.mass / sensitivityScale) * sensitivity;
     }
 
+    public void ThereminControllerProcessing()
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        Vector3 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        Debug.Log(mousePos.x);
+        Debug.Log(mousePos.y);
+
+        roll = mousePos.x * 2 - 1.0f;
+        pitch = mousePos.y * 2 - 1.0f;
+    }
 
     public void ControllerProcessing()
     {
+        if (Time.timeScale != 1 || Globals.gameOver)
+        {
+            return; 
+        }
         roll = Input.GetAxis(rollAxis);
         pitch = Input.GetAxis(pitchlAxis);
         yaw = Input.GetAxis(yawAxis);
+
+        if (Input.GetKey(KeyCode.Mouse2))
+        {
+            ThereminControllerProcessing();
+        }
 
         if (Input.GetButton(throttleKey))
         {

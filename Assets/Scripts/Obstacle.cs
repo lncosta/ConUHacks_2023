@@ -27,6 +27,7 @@ public class Obstacle : MonoBehaviour
         Debug.Log("Collision - " + collisionForce.magnitude);
         if (collisionForce.magnitude > collisionCrashIndex)
         {
+           
             Globals.gameOver = true;
 
         }
