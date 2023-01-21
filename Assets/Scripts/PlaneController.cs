@@ -52,6 +52,7 @@ public class PlaneController : MonoBehaviour
         rb.AddTorque(transform.up * yaw * adjustedSensitivity);
         rb.AddTorque(transform.right * pitch * adjustedSensitivity);
         rb.AddTorque(-transform.forward * roll * adjustedSensitivity);
+        rb.AddForce(new Vector3(0, -1, 0) * rb.mass * 0.0098f); 
     }
 
     public float getAdjustedSensitivity()
