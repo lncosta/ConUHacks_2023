@@ -54,7 +54,7 @@ public class PlaneController : MonoBehaviour
         rb.AddTorque(transform.up * yaw * adjustedSensitivity);
         rb.AddTorque(transform.right * pitch * adjustedSensitivity);
         rb.AddTorque(-transform.forward * roll * adjustedSensitivity);
-        rb.AddForce(new Vector3(0, -1, 0) * rb.mass * 0.0098f); 
+        rb.AddForce(new Vector3(0, -1.0f, 0) * rb.mass * 0.001f); 
     }
 
     public float getAdjustedSensitivity()
@@ -101,7 +101,7 @@ public class PlaneController : MonoBehaviour
 
         if (Input.GetButton(throttleKey))
         {
-           // Debug.Log("Throttle on"); 
+           Debug.Log("Throttle on"); 
             throttle += throttleIncrement; 
 
             if(throttle >=maxThrottle)
@@ -112,8 +112,18 @@ public class PlaneController : MonoBehaviour
 
         else if (Input.GetButton(brakeKey))
         {
-           // Debug.Log("Brakes on");
+           Debug.Log("Brakes on");
             throttle -= throttleIncrement;
+
+            if (throttle < 0)
+            {
+                throttle = 0;
+            }
+        }
+
+        else
+        {
+           // throttle -= 0.0098f;
 
             if (throttle < 0)
             {

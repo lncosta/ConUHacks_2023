@@ -10,14 +10,25 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        positionFromTarget = new Vector3(0, 0, 0); 
+        //positionFromTarget = new Vector3(0, 0, 0); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = target.transform.position + positionFromTarget; 
-        transform.rotation = target.transform.rotation;
+        
+
+        if(transform.tag != "Radar")
+        {
+            transform.position = target.transform.position;
+            transform.rotation = target.transform.rotation;
+        }
+        else
+        {
+            transform.position = target.transform.position + positionFromTarget;
+            transform.rotation = Quaternion.Euler(90, 0, target.transform.rotation.eulerAngles.z);
+        }
+       
         
     }
 }
