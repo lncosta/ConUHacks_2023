@@ -38,6 +38,7 @@ public class PlaneController : MonoBehaviour
     {
 
         rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
 
     }
 
