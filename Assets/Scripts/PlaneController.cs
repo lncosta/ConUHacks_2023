@@ -34,6 +34,9 @@ public class PlaneController : MonoBehaviour
     [SerializeField] public AudioSource audioSource;
 
 
+    [SerializeField] private bool brakesOn = false;
+
+
     void Start()
     {
 
@@ -50,6 +53,11 @@ public class PlaneController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (brakesOn)
+        {
+            rb.AddForce(new Vector3(0, -1.0f, 0) * rb.mass * 0.001f);
+            return; 
+        }
         rb.AddForce(transform.forward * thrust * throttle);
         float adjustedSensitivity = getAdjustedSensitivity();
         rb.AddTorque(transform.up * yaw * adjustedSensitivity);
@@ -86,6 +94,17 @@ public class PlaneController : MonoBehaviour
         {
             return; 
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit(); 
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            brakesOn = !brakesOn;
+        }
+
         roll = Input.GetAxis(rollAxis);
         pitch = Input.GetAxis(pitchlAxis);
         yaw = Input.GetAxis(yawAxis);

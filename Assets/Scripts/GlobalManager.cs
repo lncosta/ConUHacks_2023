@@ -12,6 +12,7 @@ public class Globals
 
 public class GlobalManager : MonoBehaviour
 {
+
     public void ClosePanel(GameObject p)
     {
         p.SetActive(false);
@@ -27,5 +28,10 @@ public class GlobalManager : MonoBehaviour
         Time.timeScale = 1; 
         SceneManager.LoadScene(x); 
         
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
